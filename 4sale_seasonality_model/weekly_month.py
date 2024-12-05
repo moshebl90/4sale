@@ -8,7 +8,7 @@ from statsmodels.tsa.arima.model import ARIMA
 def run(selected_level_1):
     st.header("Weekly in Month Seasonality Analysis")
 
-    final_data = pd.read_csv("final_data.csv")
+    final_data = st.session_state.final_data 
     final_data["TIMESTAMP"] = pd.to_datetime(final_data["TIMESTAMP"])
     final_data["week_of_month"] = final_data["TIMESTAMP"].dt.day // 7 + 1
     final_data["month"] = final_data["TIMESTAMP"].dt.month
