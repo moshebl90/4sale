@@ -6,7 +6,7 @@ from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.seasonal import seasonal_decompose
 
 
-def run(selected_level_1):
+def run(final_data, selected_level_1):
     st.header("Weekly Seasonality Analysis")
 
     final_data = st.session_state.final_data 
