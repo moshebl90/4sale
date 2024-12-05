@@ -18,7 +18,7 @@ def run():
     st.header("Data Information")
 
     try:
-        final_data = pd.read_csv("final_data.csv")
+        final_data = st.session_state.final_data 
     except FileNotFoundError:
         st.error("Please upload the required data files first!")
         return
