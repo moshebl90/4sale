@@ -58,7 +58,7 @@ elif "final_data" not in st.session_state:
 
 elif selected == "Info":
     import info
-    info.run()
+    info.run(final_data)
 
 elif selected == "Monthly Analysis":
     import monthly
@@ -86,4 +86,4 @@ elif selected == "Weekday Analysis":
 
 elif selected == "Insights":
     import insights
-    insights.run(final_data)
+    insights.run()
