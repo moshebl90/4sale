@@ -1,0 +1,6 @@
+pandas
+streamlit
+seaborn
+matplotlib
+statsmodels
+streamlit_option_menu
