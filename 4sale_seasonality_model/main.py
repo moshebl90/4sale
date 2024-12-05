@@ -22,7 +22,16 @@ with st.sidebar:
 # Sidebar filters
 st.sidebar.title("Filters")
 
-# Handle file uploads
+
+# Level-1 filter options based on the uploaded data
+if 'final_data' in locals():
+    level_1_options = final_data["Level-1"].unique()
+    selected_level_1 = st.sidebar.selectbox("Select Level-1 Category", options=["All"] + list(level_1_options))
+
+# Different analysis sections based on selected option
+if selected == "Upload Data":
+    st.header("Upload Data Files")
+    # Handle file uploads
 transactions_file = st.file_uploader("Upload Transactions.csv", type=["csv"])
 listings_file = st.file_uploader("Upload ListingsCategories.csv", type=["csv"])
 
@@ -49,15 +58,6 @@ else:
     else:
         st.warning("Please upload the data files to proceed.")
 
-# Level-1 filter options based on the uploaded data
-if 'final_data' in locals():
-    level_1_options = final_data["Level-1"].unique()
-    selected_level_1 = st.sidebar.selectbox("Select Level-1 Category", options=["All"] + list(level_1_options))
-
-# Different analysis sections based on selected option
-if selected == "Upload Data":
-    st.header("Upload Data Files")
-    # Additional file upload logic can go here
 elif selected == "Info":
     import info
     info.run()
