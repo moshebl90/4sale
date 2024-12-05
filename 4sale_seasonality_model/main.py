@@ -4,7 +4,7 @@ from streamlit_option_menu import option_menu
 
 st.set_page_config(page_title="4sale Seasonality Analysis", page_icon=":bar_chart:", initial_sidebar_state="expanded")
 
-st.sidebar.image("images.png", use_container_width=True)
+st.sidebar.image("4sale_seasonality_model/images.png", use_container_width=True)
 with st.sidebar:
     selected = option_menu(
         "Navigation",
