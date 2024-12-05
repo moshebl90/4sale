@@ -14,11 +14,11 @@ def calculate_summary(df, date_col):
 
     return summary
 
-def run():
+def run(final_data):
     st.header("Data Information")
 
     try:
-        final_data = st.session_state.final_data 
+        final_data 
     except FileNotFoundError:
         st.error("Please upload the required data files first!")
         return
