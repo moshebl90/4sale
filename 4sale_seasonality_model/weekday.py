@@ -6,7 +6,7 @@ from statsmodels.tsa.arima.model import ARIMA
 
 def run(selected_level_1):
     st.header("Weekday Seasonality Analysis")
-    final_data = pd.read_csv("final_data.csv")
+    final_data = st.session_state.final_data 
     final_data["TIMESTAMP"] = pd.to_datetime(final_data["TIMESTAMP"])
     final_data["weekday"] = final_data["TIMESTAMP"].dt.day_name()  # Extract weekday names
     final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
