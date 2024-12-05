@@ -37,7 +37,7 @@ if selected == "Upload Data":
         final_data = transactions.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
 
         # Save final_data for other modules
-        final_data.to_csv("4sale_seasonality_model/final_data.csv", index=False)
+        final_data.to_csv("/tmp/final_data.csv", index=False)
 
         st.success("Data uploaded and processed successfully! You can now proceed to analysis.")
 
