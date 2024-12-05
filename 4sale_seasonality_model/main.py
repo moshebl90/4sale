@@ -86,4 +86,4 @@ elif selected == "Weekday Analysis":
 
 elif selected == "Insights":
     import insights
-    insights.run()
+    insights.run(final_data)
