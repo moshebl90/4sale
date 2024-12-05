@@ -23,11 +23,6 @@ with st.sidebar:
 st.sidebar.title("Filters")
 
 
-# Level-1 filter options based on the uploaded data
-if 'final_data' in locals():
-    level_1_options = final_data["Level-1"].unique()
-    selected_level_1 = st.sidebar.selectbox("Select Level-1 Category", options=["All"] + list(level_1_options))
-
 # Different analysis sections based on selected option
 if selected == "Upload Data":
     st.header("Upload Data Files")
@@ -57,6 +52,10 @@ else:
         final_data = st.session_state.final_data
     else:
         st.warning("Please upload the data files to proceed.")
+# Level-1 filter options based on the uploaded data
+if 'final_data' in locals():
+    level_1_options = final_data["Level-1"].unique()
+    selected_level_1 = st.sidebar.selectbox("Select Level-1 Category", options=["All"] + list(level_1_options))
 
 elif selected == "Info":
     import info
