@@ -16,7 +16,7 @@ with st.sidebar:
     )
 st.sidebar.title("Filters")
 
-final_data = pd.read_csv("final_data.csv")
+final_data = pd.read_csv("/tmp/final_data.csv")
 level_1_options = final_data["Level-1"].unique()
 
 # Global Level-1 filter
