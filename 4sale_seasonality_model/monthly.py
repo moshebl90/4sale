@@ -4,10 +4,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
 
-def run(selected_level_1):
+def run(final_data, selected_level_1):
     st.header("Monthly Seasonality Analysis")
 
-    final_data = st.session_state.final_data 
+    # Preprocess final_data
     final_data["TIMESTAMP"] = pd.to_datetime(final_data["TIMESTAMP"])
     final_data["month"] = final_data["TIMESTAMP"].dt.month
     final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
