@@ -22,7 +22,6 @@ def calculate_summary(df, date_col):
         total_revenue=('PRICE', 'sum'),
         total_users=('USER_ID', 'nunique')
     ).reset_index()
-
     return summary
 
 
@@ -35,5 +34,4 @@ def calculate_yearly_totals(df, date_col):
         total_revenue=('PRICE', 'sum'),
         total_users=('USER_ID', 'nunique')
     ).reset_index()
-
     return yearly_totals
