@@ -54,7 +54,7 @@ if 'final_data' not in st.session_state:
                 chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})
 
                 # Read the listings CSV file
-                listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"')
+                listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
 
                 # Extract 'Level-1' from 'FULL_PATH' in listings file
                 listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
