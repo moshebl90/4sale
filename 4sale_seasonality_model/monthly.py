@@ -22,15 +22,12 @@ def run(final_data, selected_level_1):
         )
 
         # Filter for specific transaction type
-        st.write("Filtering data for TRANSACTION_TYPE == 'Listing'...")
         final_data = final_data[final_data["TRANSACTION_TYPE"] == "Listing"]
 
         # Filter by selected level-1
         if selected_level_1 != "All":
             final_data = final_data[final_data["Level-1"] == selected_level_1]
-            st.write(
-                f"Data after filtering for selected Level-1: {final_data.shape[0]} rows."
-            )
+
 
         if final_data.empty:
             st.warning(
@@ -46,7 +43,6 @@ def run(final_data, selected_level_1):
             .reset_index()
         )
 
-        st.write(f"Monthly data after aggregation: {monthly_data.shape[0]} rows.")
 
         # Create seasonality index using ARIMA
         monthly_data["revenue_index"] = 0
