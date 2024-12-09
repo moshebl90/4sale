@@ -67,3 +67,14 @@ def run(final_data, selected_level_1):
     sns.heatmap(heatmap_data, annot=True, fmt=".2f", cmap="coolwarm", cbar_kws={'label': 'Seasonality Index'})
     plt.title("Daily Seasonality by Level-1")
     st.pyplot(plt)
+
+day_bar = daily_data.groupby('day')['revenue'].sum()
+
+    # Plot a bar chart
+    plt.figure(figsize=(12, 6))
+    day_bar.plot(kind='bar', color='skyblue')
+    plt.title('Revenue by daily')
+    plt.xlabel('day')
+    plt.ylabel('Total Revenue')
+    plt.xticks(rotation=45)
+    st.pyplot(plt)
