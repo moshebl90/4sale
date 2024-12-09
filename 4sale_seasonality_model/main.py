@@ -44,6 +44,9 @@ if os.path.exists("transactions.csv"):
         # Read the CSV file for transactions in chunks
         chunksize = 10000  # Adjust chunk size based on your needs
         for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, header=0, on_bad_lines='skip', delimiter=',', quotechar='"'):
+            # Print columns to debug
+        
+
             # Clean and process the chunk
             chunk.columns = chunk.columns.str.strip()  # Strip any leading/trailing whitespace from columns
             if "CATEGORY_ID" not in chunk.columns:
@@ -57,6 +60,7 @@ if os.path.exists("transactions.csv"):
             listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
 
             # Check columns in listings file to ensure FULL_PATH exists
+           
             if "FULL_PATH" not in listings.columns:
                 st.error("'FULL_PATH' column not found in listings file.")
                 st.stop()
@@ -84,7 +88,7 @@ if os.path.exists("transactions.csv"):
 
 # Navigation options
 if selected == "Info":
-    import info  
+    import info
     info.run(st.session_state.final_data)
 
 elif selected == "Monthly Analysis":
