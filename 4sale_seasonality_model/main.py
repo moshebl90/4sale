@@ -36,28 +36,24 @@ if 'final_data' not in st.session_state:
 
     # Download files from Google Drive
     gdown.download(transactions_url, "transactions.csv", quiet=False)
-    gdown.download(listings_url, "listingsCategories.xlsx", quiet=False)
+    gdown.download(listings_url, "listingsCategories", quiet=False)
 
     # Check if files are downloaded successfully
-    if not os.path.exists("transactions.csv") or not os.path.exists("listingsCategories.xlsx"):
+    if not os.path.exists("transactions.csv") or not os.path.exists("listingsCategories"):
         st.error("Files could not be downloaded. Please check the file URLs or your internet connection.")
     else:
         try:
-            # Try reading the CSV with different delimiters
+            # Try reading the transactions file (assuming it's CSV)
             transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=',', on_bad_lines='skip')
-            # If the above doesn't work, try tab or semicolon delimiters
-            if transactions.empty:
-                transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=';', on_bad_lines='skip')
-                if transactions.empty:
-                    transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter='\t', on_bad_lines='skip')
-
-            # Ensure the listings file is valid and has the correct format
-            if listings_url.endswith('.xlsx'):
-                # Read the Excel file with specified engine
-                listings = pd.read_excel("listingsCategories.xlsx", engine='openpyxl')  # Specify engine for .xlsx files
+            
+            # Check if listings is CSV or Excel
+            if listings_url.endswith('.csv') or listings_url.endswith('.CSV'):
+                listings = pd.read_csv("listingsCategories", encoding='utf-8', delimiter=',', on_bad_lines='skip')
+            elif listings_url.endswith('.xls') or listings_url.endswith('.xlsx'):
+                listings = pd.read_excel("listingsCategories", engine='openpyxl')  # Try openpyxl for .xlsx files
             else:
-                raise ValueError("The listings file is not an Excel (.xlsx) file.")
-
+                raise ValueError("Unsupported file format for listings file.")
+            
             # Data cleaning and merging
             listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
             transactions = transactions.rename(columns={"CATEGORY_ID": "CAT_ID"})
