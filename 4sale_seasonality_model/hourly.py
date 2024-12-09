@@ -71,7 +71,7 @@ def run(final_data, selected_level_1):
     plt.title("Hourly Seasonality by Level-1")
     st.pyplot(plt)
 
-  hourly_bar = hourly_data.groupby('hour')['revenue'].sum()
+    hourly_bar = hourly_data.groupby('hour')['revenue'].sum()
 
     # Plot a bar chart
     plt.figure(figsize=(10, 6))
