@@ -58,6 +58,7 @@ def run(final_data, selected_level_1):
         color = 'green' if val > 0 else 'red'
         return f'background-color: {color}; color: white'
 
+    
     styled_df = monthly_data.style.applymap(colorize, subset=["growth%"])
     st.write("Processed Monthly Seasonality Data")
     st.dataframe(styled_df)
@@ -69,7 +70,6 @@ def run(final_data, selected_level_1):
     sns.heatmap(heatmap_data, annot=True, fmt=".2f", cmap="coolwarm", cbar_kws={'label': 'Seasonality Index'})
     plt.title("Monthly Seasonality by Level-1")
     st.pyplot(plt)
-
     month_bar = monthly_data.groupby('month')['revenue'].sum()
     # Plot a bar chart
     plt.figure(figsize=(10, 6))
