@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.seasonal import seasonal_decompose
 
-
 def run(final_data, selected_level_1):
     st.header("Weekly Seasonality Analysis")
 
@@ -24,7 +23,6 @@ def run(final_data, selected_level_1):
     if selected_week != "All":
         final_data = final_data[final_data["week"] == selected_week]
 
-    # Group data
     weekly_data = final_data.groupby(["Level-1", "week"]).agg(
         revenue=("PRICE", "sum"),
         listings=("TRANSCATION_ID", "count")
@@ -53,7 +51,6 @@ def run(final_data, selected_level_1):
 
     if len(arima_data) >= 104:
         st.write(f"Seasonality Analysis for {selected_level_1}")
-
         try:
             decomposition = seasonal_decompose(arima_data["revenue"], model="additive", period=52)
             st.write("Seasonal Component")
@@ -80,13 +77,11 @@ def run(final_data, selected_level_1):
         st.write("Here are some aggregated insights from the available data:")
         st.bar_chart(arima_data["revenue"])
 
-   weekly_bar = weekly_data.groupby('week')['revenue'].sum()
-
-        # Plot a bar chart
-        plt.figure(figsize=(10, 6))
-        weekly_bar.plot(kind='bar', color='skyblue')
-        plt.title('Revenue by monthly')
-        plt.xlabel('week')
-        plt.ylabel('Total Revenue')
-        plt.xticks(rotation=45)
-        st.pyplot(plt)
+    weekly_bar = weekly_data.groupby('week')['revenue'].sum()
+    plt.figure(figsize=(10, 6))
+    weekly_bar.plot(kind='bar', color='skyblue')
+    plt.title('Revenue by Week')
+    plt.xlabel('Week')
+    plt.ylabel('Total Revenue')
+    plt.xticks(rotation=45)
+    st.pyplot(plt)
