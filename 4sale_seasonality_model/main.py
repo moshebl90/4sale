@@ -51,8 +51,12 @@ if 'final_data' not in st.session_state:
                 if transactions.empty:
                     transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter='\t', on_bad_lines='skip')
 
-            # Read the Excel file
-            listings = pd.read_excel("listingsCategories.xlsx", engine='openpyxl') 
+            # Ensure the listings file is valid and has the correct format
+            if listings_url.endswith('.xlsx'):
+                # Read the Excel file with specified engine
+                listings = pd.read_excel("listingsCategories.xlsx", engine='openpyxl')  # Specify engine for .xlsx files
+            else:
+                raise ValueError("The listings file is not an Excel (.xlsx) file.")
 
             # Data cleaning and merging
             listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
