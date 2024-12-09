@@ -24,7 +24,6 @@ def run(final_data, selected_level_1):
         # Filter for specific transaction type
         st.write("Filtering data for TRANSACTION_TYPE == 'Listing'...")
         final_data = final_data[final_data["TRANSACTION_TYPE"] == "Listing"]
-        st.write(f"Data after filtering for 'Listing': {final_data.shape[0]} rows.")
 
         # Filter by selected level-1
         if selected_level_1 != "All":
