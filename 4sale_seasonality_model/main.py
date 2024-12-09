@@ -35,37 +35,34 @@ if 'final_data' not in st.session_state:
     listings_url = "https://drive.google.com/file/d/1tR4O7Znixa0aKC0sxb_9K7JOxwbIo_kO/view?usp=sharing"
 
     # Download files from Google Drive
-    gdown.download(transactions_url, "transactions.csv", quiet=False)
-    gdown.download(listings_url, "listingsCategories", quiet=False)
-
+      gdown.download(transactions_url, "transactions.csv", quiet=False)
+    gdown.download(listings_url, "listingsCategories.csv", quiet=False)
+    # Read the CSV files
+    transactions = pd.read_csv("transactions.csv")
+    listings = pd.read_csv("listingsCategories.csv")
+    # Data cleaning and merging
+    listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
+    transactions = transactions.rename(columns={"CATEGORY_ID": "CAT_ID"})
+    final_data = transactions.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
+    # Save final_data to session state
+    st.session_state.final_data = final_data
+    # Success message after processing data
+    st.success("Data loaded from Google Drive and processed successfully! You can now proceed to analysis.")
+    gdown.download(listings_url, "listingsCategories.xlsx", quiet=False)
     # Check if files are downloaded successfully
-    if not os.path.exists("transactions.csv") or not os.path.exists("listingsCategories"):
+    if not os.path.exists("transactions.csv") or not os.path.exists("listingsCategories.xlsx"):
         st.error("Files could not be downloaded. Please check the file URLs or your internet connection.")
     else:
         try:
-            # Try reading the transactions file (assuming it's CSV)
-            transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=',', on_bad_lines='skip')
-            
-            # Check the file format of listingsCategories
-            listings_file = "listingsCategories"
-            file_extension = listings_file.split('.')[-1].lower()
-            
-            # Handle different file formats
-            if file_extension == 'csv':
-                listings = pd.read_csv(listings_file, encoding='utf-8', delimiter=',', on_bad_lines='skip')
-            elif file_extension in ['xls', 'xlsx']:
-                listings = pd.read_excel(listings_file, engine='openpyxl')  # Try openpyxl for .xlsx files
-            else:
-                raise ValueError("Unsupported file format for listings file. Expected .csv or .xlsx")
-            
+            # Read the CSV and Excel files
+            transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=',')
+            listings = pd.read_excel("listingsCategories.xlsx")  # Use read_excel for .xlsx files
             # Data cleaning and merging
             listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
             transactions = transactions.rename(columns={"CATEGORY_ID": "CAT_ID"})
             final_data = transactions.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
-
             # Save final_data to session state
             st.session_state.final_data = final_data
-
             # Success message after processing data
             st.success("Data loaded from Google Drive and processed successfully! You can now proceed to analysis.")
         except Exception as e:
