@@ -7,19 +7,48 @@ def run(final_data):
 
     st.subheader("Introduction")
     st.write("""
-       TBC
+    This model is designed to calculate the seasonality for various granularities and estimate the expected growth based on historical data. 
+    It uses ARIMA for seasonality forecasting and includes percentage growth analysis for each level of granularity.
+    The model provides insights into revenue trends, helping to predict future performance and identify seasonality patterns.
     """)
 
     st.subheader("Challenges")
     st.write("""
-    Based on below yearly Data 2023 data is totally missed with a clear decrease in 2022 Transactions 
-        """)
+    Based on the data below, the 2023 data is completely missing, and there is a clear decrease in transactions for 2022. 
+    Due to the absence of recent data and the noticeable decrease in past transactions, we cannot fully rely on the model's accuracy 
+    for future predictions. The missing data impacts the ability to make accurate forecasts and seasonality calculations.
+    """)
     yearly_totals = calculate_yearly_totals(final_data, 'TIMESTAMP')
     st.dataframe(yearly_totals)
 
     st.write("""
-       From The above table we can see around 90% increase in 2024 Transaction compare to 2022 
-       We can't ignore the missing data for 2023 but will share the growth in % based on the given data on the attached slides 
-                 """)
+    From the above table, we can observe around a 90% increase in transactions in 2024 compared to 2022. 
+    While this growth is notable, we must acknowledge the missing data for 2023. 
+    Even though we see a significant increase, we cannot fully rely on this trend for future predictions 
+    due to the lack of 2023 data, which limits the model's accuracy and reliability.
+    """)
+    
+    st.write("""
+         The chart below shows that October and November exhibit the best performance, with the highest revenue.
+                   """)
+
+    final_data["TIMESTAMP"] = pd.to_datetime(final_data["TIMESTAMP"])
+    final_data["month"] = final_data["TIMESTAMP"].dt.month
+    final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
+    final_data = final_data[final_data['TRANSACTION_TYPE'] == 'Listing']
+    month_bar = final_data.groupby('month')['revenue'].sum()
+
+    # Plot a bar chart
+    plt.figure(figsize=(10, 6))
+    month_bar.plot(kind='bar', color='skyblue')
+    plt.title('Revenue by monthly')
+    plt.xlabel('month')
+    plt.ylabel('Total Revenue')
+    plt.xticks(rotation=45)
+    st.pyplot(plt)
+
+
+
+
 
 
