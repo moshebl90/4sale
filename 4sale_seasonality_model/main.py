@@ -35,7 +35,7 @@ if 'final_data' not in st.session_state:
     listings_url = "https://drive.google.com/file/d/1tR4O7Znixa0aKC0sxb_9K7JOxwbIo_kO/view?usp=sharing"
 
     # Download files from Google Drive
-      gdown.download(transactions_url, "transactions.csv", quiet=False)
+    gdown.download(transactions_url, "transactions.csv", quiet=False)
     gdown.download(listings_url, "listingsCategories.csv", quiet=False)
     # Read the CSV files
     transactions = pd.read_csv("transactions.csv")
