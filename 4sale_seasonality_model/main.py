@@ -84,7 +84,7 @@ if os.path.exists("transactions.csv"):
 
 # Navigation options
 if selected == "Info":
-    import info  # <-- This is now aligned properly at the top level
+    import info  
     info.run(st.session_state.final_data)
 
 elif selected == "Monthly Analysis":
