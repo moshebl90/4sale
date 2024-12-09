@@ -87,33 +87,33 @@ if os.path.exists("transactions.csv"):
         st.stop()
 # Navigation options
 if selected == "Info":
-import info
-    info.run(st.session_state.final_data)
+        import info
+        info.run(st.session_state.final_data)
 
 elif selected == "Monthly Analysis":
-import monthly
-    monthly.run(st.session_state.final_data, selected_level_1)
+        import monthly
+        monthly.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Weekly Analysis":
-import weekly
-    weekly.run(st.session_state.final_data, selected_level_1)
+        import weekly
+        weekly.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Daily Analysis":
-import daily
-    daily.run(st.session_state.final_data, selected_level_1)
+        import daily
+        daily.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Weekly in Month Analysis":
-import weekly_month
-    weekly_month.run(st.session_state.final_data, selected_level_1)
+        import weekly_month
+        weekly_month.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Hourly Analysis":
-import hourly
-    hourly.run(st.session_state.final_data, selected_level_1)
+        import hourly
+        hourly.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Weekday Analysis":
-import weekday
-    weekday.run(st.session_state.final_data, selected_level_1)
+        import weekday
+        weekday.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Insights":
-import insights
-    insights.run(st.session_state.final_data)
+        import insights
+        insights.run(st.session_state.final_data)
