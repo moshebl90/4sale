@@ -72,3 +72,14 @@ def run(final_data, selected_level_1):
         st.write(pd.DataFrame({"Week": ["Week 1", "Week 2", "Week 3", "Week 4"], "Forecasted Revenue": forecast}))
     except Exception as e:
         st.error(f"ARIMA model could not be fitted: {e}")
+
+    week_bar = weekly_month_data.groupby('week_of_month')['revenue'].sum()
+
+    # Plot a bar chart
+    plt.figure(figsize=(10, 6))
+    week_bar.plot(kind='bar', color='skyblue')
+    plt.title('Revenue by week of month')
+    plt.xlabel('week_of_month')
+    plt.ylabel('Total Revenue')
+    plt.xticks(rotation=45)
+    st.pyplot(plt)
