@@ -5,7 +5,7 @@ from info import calculate_yearly_totals
 def run(final_data):
     st.title("Business Insights & Recommendations")
 
- st.subheader("Introduction")
+    st.subheader("Introduction")
     st.write("""
        TBC
     """)
