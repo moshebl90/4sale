@@ -61,8 +61,6 @@ def run(final_data, selected_level_1):
     styled_df = monthly_data.style.applymap(colorize, subset=["growth%"])
     st.write("Processed Monthly Seasonality Data")
     st.dataframe(styled_df)
-
-
     heatmap_data = monthly_data.pivot(index="Level-1", columns="month", values="revenue_index")
     heatmap_data = heatmap_data.fillna(0)
     heatmap_data = heatmap_data.astype(float)
@@ -72,8 +70,7 @@ def run(final_data, selected_level_1):
     plt.title("Monthly Seasonality by Level-1")
     st.pyplot(plt)
 
-  month_bar = monthly_data.groupby('month')['revenue'].sum()
-
+    month_bar = monthly_data.groupby('month')['revenue'].sum()
     # Plot a bar chart
     plt.figure(figsize=(10, 6))
     month_bar.plot(kind='bar', color='skyblue')
