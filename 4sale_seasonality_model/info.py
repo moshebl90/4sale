@@ -3,7 +3,7 @@ import streamlit as st
 
 def run(final_data):
     st.header("Data Summary information ")
-    st.subheader("Data Summary (Yearly and Monthly)")
+    st.subheader("Aggregation (Yearly and Monthly)")
     final_data_summary = calculate_summary(final_data, 'TIMESTAMP')
     st.dataframe(final_data_summary)
     st.subheader("Yearly Totals")
