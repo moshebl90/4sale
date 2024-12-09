@@ -39,53 +39,52 @@ if 'final_data' not in st.session_state:
     gdown.download(listings_url, "listingsCategories.csv", quiet=False)
 
     # Check if files are downloaded successfully
-    if not os.path.exists("transactions.csv") or not os.path.exists("listingsCategories.csv"):
-        st.error("Files could not be downloaded. Please check the file URLs or your internet connection.")
-    else:
-        try:
-            # Read the CSV file for transactions in chunks to handle large files
-            chunksize = 10000  # Adjust chunk size based on your needs
-            for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, on_bad_lines='skip', delimiter=',', quotechar='"'):
-                # Print columns to debug
+   if os.path.exists("transactions.csv"):
+    try:
+        # Read the CSV file for transactions in chunks
+        chunksize = 10000  # Adjust chunk size based on your needs
+        for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, header=0, on_bad_lines='skip', delimiter=',', quotechar='"'):
+            # Print columns to debug
+        
 
-                # Clean and process the chunk
-                chunk.columns = chunk.columns.str.strip()  # Strip any leading/trailing whitespace from columns
-                if "CATEGORY_ID" not in chunk.columns:
-                    st.error("'CATEGORY_ID' column not found in transactions file.")
-                    st.stop()
+            # Clean and process the chunk
+            chunk.columns = chunk.columns.str.strip()  # Strip any leading/trailing whitespace from columns
+            if "CATEGORY_ID" not in chunk.columns:
+                st.error("'CATEGORY_ID' column not found in transactions file.")
+                st.stop()
 
-                # Rename CATEGORY_ID to CAT_ID
-                chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})
+            # Rename CATEGORY_ID to CAT_ID
+            chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})
 
-                # Read the listings CSV file
-                listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
+            # Process listings data
+            listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
 
-                # Check columns in listings file to ensure FULL_PATH exists
-                if "FULL_PATH" not in listings.columns:
-                    st.error("'FULL_PATH' column not found in listings file.")
-                    st.stop()
+            # Check columns in listings file to ensure FULL_PATH exists
+           
+            if "FULL_PATH" not in listings.columns:
+                st.error("'FULL_PATH' column not found in listings file.")
+                st.stop()
 
-                # Extract 'Level-1' from 'FULL_PATH' in listings file
-                listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
+            # Extract 'Level-1' from 'FULL_PATH' in listings file
+            listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
 
-                # Merge the chunk with the listings data on 'CAT_ID'
-                chunk = chunk.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
+            # Merge the chunk with the listings data on 'CAT_ID'
+            chunk = chunk.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
 
-                # Append the chunk to the final data
-                if 'final_data' not in locals():
-                    final_data = chunk
-                else:
-                    final_data = pd.concat([final_data, chunk], ignore_index=True)
+            # Append the chunk to the final data
+            if 'final_data' not in locals():
+                final_data = chunk
+            else:
+                final_data = pd.concat([final_data, chunk], ignore_index=True)
 
-            # Save final_data to session state
-            st.session_state.final_data = final_data
+        # Save final_data to session state
+        st.session_state.final_data = final_data
 
-            # Success message after processing data
-            st.success("Data loaded from Google Drive and processed successfully! You can now proceed to analysis.")
-        except Exception as e:
-            st.error(f"Error reading the files: {e}")
-            st.stop()
-
+        # Success message after processing data
+        st.success("Data loaded from Google Drive and processed successfully! You can now proceed to analysis.")
+    except Exception as e:
+        st.error(f"Error reading the files: {e}")
+        st.stop()
 # Navigation options
 if selected == "Info":
     import info
