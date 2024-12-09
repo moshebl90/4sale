@@ -4,11 +4,6 @@ import streamlit as st
 def run(final_data):
     st.header("Data Information")
 
-    try:
-        final_data 
-    except FileNotFoundError:
-        st.error("Please upload the required data files first!")
-        return
 
 def calculate_summary(df, date_col):
     df[date_col] = pd.to_datetime(df[date_col])
