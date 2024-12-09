@@ -36,33 +36,36 @@ if 'final_data' not in st.session_state:
 
     # Download files from Google Drive
     gdown.download(transactions_url, "transactions.csv", quiet=False)
-    gdown.download(listings_url, "listingsCategories.csv", quiet=False)
-    # Read the CSV files
-    transactions = pd.read_csv("transactions.csv")
-    listings = pd.read_csv("listingsCategories.csv")
-    # Data cleaning and merging
-    listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
-    transactions = transactions.rename(columns={"CATEGORY_ID": "CAT_ID"})
-    final_data = transactions.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
-    # Save final_data to session state
-    st.session_state.final_data = final_data
-    # Success message after processing data
-    st.success("Data loaded from Google Drive and processed successfully! You can now proceed to analysis.")
     gdown.download(listings_url, "listingsCategories.xlsx", quiet=False)
+
     # Check if files are downloaded successfully
     if not os.path.exists("transactions.csv") or not os.path.exists("listingsCategories.xlsx"):
         st.error("Files could not be downloaded. Please check the file URLs or your internet connection.")
     else:
         try:
-            # Read the CSV and Excel files
-            transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=',')
-            listings = pd.read_excel("listingsCategories.xlsx")  # Use read_excel for .xlsx files
-            # Data cleaning and merging
-            listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
-            transactions = transactions.rename(columns={"CATEGORY_ID": "CAT_ID"})
-            final_data = transactions.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
+            # Initialize an empty dataframe for final_data
+            final_data = pd.DataFrame()
+
+            # Read the CSV file in chunks
+            chunksize = 10000  # Adjust chunk size based on your needs
+            for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize):
+                # Process each chunk
+                # Clean and process the chunk
+                chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})
+
+                # Load the listings Excel file
+                listings = pd.read_excel("listingsCategories.xlsx")
+                listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
+
+                # Merge the chunk with the listings data
+                chunk = chunk.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
+
+                # Append the chunk to the final data
+                final_data = pd.concat([final_data, chunk], ignore_index=True)
+
             # Save final_data to session state
             st.session_state.final_data = final_data
+
             # Success message after processing data
             st.success("Data loaded from Google Drive and processed successfully! You can now proceed to analysis.")
         except Exception as e:
