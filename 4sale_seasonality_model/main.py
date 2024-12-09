@@ -45,8 +45,6 @@ if os.path.exists("transactions.csv"):
         chunksize = 10000  # Adjust chunk size based on your needs
         for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, header=0, on_bad_lines='skip', delimiter=',', quotechar='"'):
             # Print columns to debug
-        
-
             # Clean and process the chunk
             chunk.columns = chunk.columns.str.strip()  # Strip any leading/trailing whitespace from columns
             if "CATEGORY_ID" not in chunk.columns:
@@ -60,7 +58,6 @@ if os.path.exists("transactions.csv"):
             listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
 
             # Check columns in listings file to ensure FULL_PATH exists
-           
             if "FULL_PATH" not in listings.columns:
                 st.error("'FULL_PATH' column not found in listings file.")
                 st.stop()
@@ -85,35 +82,36 @@ if os.path.exists("transactions.csv"):
     except Exception as e:
         st.error(f"Error reading the files: {e}")
         st.stop()
+
 # Navigation options
 if selected == "Info":
-        import info
-        info.run(st.session_state.final_data)
+    import info  # <-- This should not be indented, it must be aligned at the top level of the code
+    info.run(st.session_state.final_data)
 
 elif selected == "Monthly Analysis":
-        import monthly
-        monthly.run(st.session_state.final_data, selected_level_1)
+    import monthly
+    monthly.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Weekly Analysis":
-        import weekly
-        weekly.run(st.session_state.final_data, selected_level_1)
+    import weekly
+    weekly.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Daily Analysis":
-        import daily
-        daily.run(st.session_state.final_data, selected_level_1)
+    import daily
+    daily.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Weekly in Month Analysis":
-        import weekly_month
-        weekly_month.run(st.session_state.final_data, selected_level_1)
+    import weekly_month
+    weekly_month.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Hourly Analysis":
-        import hourly
-        hourly.run(st.session_state.final_data, selected_level_1)
+    import hourly
+    hourly.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Weekday Analysis":
-        import weekday
-        weekday.run(st.session_state.final_data, selected_level_1)
+    import weekday
+    weekday.run(st.session_state.final_data, selected_level_1)
 
 elif selected == "Insights":
-        import insights
-        insights.run(st.session_state.final_data)
+    import insights
+    insights.run(st.session_state.final_data)
