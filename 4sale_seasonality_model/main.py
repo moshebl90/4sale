@@ -47,7 +47,6 @@ if 'final_data' not in st.session_state:
             chunksize = 10000  # Adjust chunk size based on your needs
             for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, on_bad_lines='skip', delimiter=',', quotechar='"'):
                 # Print columns to debug
-                st.write(f"Columns in transactions file: {chunk.columns}")
 
                 # Clean and process the chunk
                 chunk.columns = chunk.columns.str.strip()  # Strip any leading/trailing whitespace from columns
@@ -62,7 +61,6 @@ if 'final_data' not in st.session_state:
                 listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
 
                 # Check columns in listings file to ensure FULL_PATH exists
-                st.write(f"Columns in listings file: {listings.columns}")
                 if "FULL_PATH" not in listings.columns:
                     st.error("'FULL_PATH' column not found in listings file.")
                     st.stop()
