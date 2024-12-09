@@ -44,7 +44,6 @@ if os.path.exists("transactions.csv"):
         # Read the CSV file for transactions in chunks
         chunksize = 10000  # Adjust chunk size based on your needs
         for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, header=0, on_bad_lines='skip', delimiter=',', quotechar='"'):
-            # Print columns to debug
             # Clean and process the chunk
             chunk.columns = chunk.columns.str.strip()  # Strip any leading/trailing whitespace from columns
             if "CATEGORY_ID" not in chunk.columns:
@@ -85,7 +84,7 @@ if os.path.exists("transactions.csv"):
 
 # Navigation options
 if selected == "Info":
-    import info  # <-- This should not be indented, it must be aligned at the top level of the code
+    import info  # <-- This is now aligned properly at the top level
     info.run(st.session_state.final_data)
 
 elif selected == "Monthly Analysis":
