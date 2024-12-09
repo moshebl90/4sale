@@ -37,7 +37,7 @@ def run(final_data):
     final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
     final_data = final_data[final_data['TRANSACTION_TYPE'] == 'Listing']
     month_bar = final_data.groupby(["month"]).agg(
-        revenue=("PRICE", "sum"),
+        revenue=("PRICE", "sum"))
     month_bar = month_bar.groupby('month')['revenue'].sum()
 
     # Plot a bar chart
