@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from info import calculate_yearly_totals
+import matplotlib.pyplot as plt
 
 def run(final_data):
     st.title("Business Insights & Recommendations")
