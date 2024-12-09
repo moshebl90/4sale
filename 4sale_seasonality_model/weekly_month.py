@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
 
 
-def run(selected_level_1):
+def run(final_data,selected_level_1):
     st.header("Weekly in Month Seasonality Analysis")
 
     final_data["TIMESTAMP"] = pd.to_datetime(final_data["TIMESTAMP"])
