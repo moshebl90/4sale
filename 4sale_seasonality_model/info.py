@@ -1,18 +1,16 @@
 import pandas as pd
 import streamlit as st
 
+
 def run(final_data):
     st.header("Data Information")
-
-    # Display the summary for yearly and monthly totals
     st.subheader("Data Summary (Yearly and Monthly)")
     final_data_summary = calculate_summary(final_data, 'TIMESTAMP')
     st.dataframe(final_data_summary)
-
-    # Display the yearly totals
     st.subheader("Yearly Totals")
     yearly_totals = calculate_yearly_totals(final_data, 'TIMESTAMP')
     st.dataframe(yearly_totals)
+
 
 def calculate_summary(df, date_col):
     df[date_col] = pd.to_datetime(df[date_col])
@@ -26,6 +24,7 @@ def calculate_summary(df, date_col):
     ).reset_index()
 
     return summary
+
 
 def calculate_yearly_totals(df, date_col):
     df[date_col] = pd.to_datetime(df[date_col])
