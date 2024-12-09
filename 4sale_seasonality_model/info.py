@@ -1,6 +1,15 @@
 import pandas as pd
 import streamlit as st
 
+def run(final_data):
+    st.header("Data Information")
+
+    try:
+        final_data 
+    except FileNotFoundError:
+        st.error("Please upload the required data files first!")
+        return
+
 def calculate_summary(df, date_col):
     df[date_col] = pd.to_datetime(df[date_col])
     df['year'] = df[date_col].dt.year
@@ -26,14 +35,7 @@ def calculate_yearly_totals(df, date_col):
 
     return yearly_totals
 
-def run(final_data):
-    st.header("Data Information")
 
-    try:
-        final_data 
-    except FileNotFoundError:
-        st.error("Please upload the required data files first!")
-        return
 
     st.subheader("Data Summary (Yearly and Monthly)")
     final_data_summary = calculate_summary(final_data, 'TIMESTAMP')
