@@ -46,11 +46,26 @@ if 'final_data' not in st.session_state:
             # Read the CSV file for transactions in chunks to handle large files
             chunksize = 10000  # Adjust chunk size based on your needs
             for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, on_bad_lines='skip', delimiter=',', quotechar='"'):
-                # Process each chunk
-                chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})  # Rename columns to match listings
+                # Print columns to debug
+                st.write(f"Columns in transactions file: {chunk.columns}")
+
+                # Clean and process the chunk
+                chunk.columns = chunk.columns.str.strip()  # Strip any leading/trailing whitespace from columns
+                if "CATEGORY_ID" not in chunk.columns:
+                    st.error("'CATEGORY_ID' column not found in transactions file.")
+                    st.stop()
+
+                # Rename CATEGORY_ID to CAT_ID
+                chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})
 
                 # Read the listings CSV file
                 listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
+
+                # Check columns in listings file to ensure FULL_PATH exists
+                st.write(f"Columns in listings file: {listings.columns}")
+                if "FULL_PATH" not in listings.columns:
+                    st.error("'FULL_PATH' column not found in listings file.")
+                    st.stop()
 
                 # Extract 'Level-1' from 'FULL_PATH' in listings file
                 listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
