@@ -39,7 +39,7 @@ if 'final_data' not in st.session_state:
     gdown.download(listings_url, "listingsCategories.csv", quiet=False)
 
     # Check if files are downloaded successfully
-   if os.path.exists("transactions.csv"):
+if os.path.exists("transactions.csv"):
     try:
         # Read the CSV file for transactions in chunks
         chunksize = 10000  # Adjust chunk size based on your needs
