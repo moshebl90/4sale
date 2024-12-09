@@ -36,25 +36,27 @@ if 'final_data' not in st.session_state:
 
     # Download files from Google Drive
     gdown.download(transactions_url, "transactions.csv", quiet=False)
-    gdown.download(listings_url, "listingsCategories.xlsx", quiet=False)
+    gdown.download(listings_url, "listingsCategories.csv", quiet=False)
 
     # Check if files are downloaded successfully
-    if not os.path.exists("transactions.csv") or not os.path.exists("listingsCategories.xlsx"):
+    if not os.path.exists("transactions.csv") or not os.path.exists("listingsCategories.csv"):
         st.error("Files could not be downloaded. Please check the file URLs or your internet connection.")
     else:
         try:
             # Initialize an empty dataframe for final_data
             final_data = pd.DataFrame()
 
-            # Read the CSV file in chunks
+            # Read the CSV file for transactions in chunks to handle large files
             chunksize = 10000  # Adjust chunk size based on your needs
-            for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize):
+            for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, on_bad_lines='skip', delimiter=',', quotechar='"'):
                 # Process each chunk
                 # Clean and process the chunk
                 chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})
 
-                # Load the listings Excel file
-                listings = pd.read_excel("listingsCategories.xlsx")
+                # Read the listings CSV file
+                listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"')
+
+                # Extract 'Level-1' from 'FULL_PATH' in listings file
                 listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
 
                 # Merge the chunk with the listings data
