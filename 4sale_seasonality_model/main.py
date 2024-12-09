@@ -32,7 +32,7 @@ else:
 if 'final_data' not in st.session_state:
     # Google Drive file links
     transactions_url = "https://drive.google.com/file/d/14h_94INBkzAxLqopeNbZOCVkWMQktAAb/view?usp=sharing"
-    listings_url = "https://docs.google.com/spreadsheets/d/165EmqELxzDlWrCjGE-yjxd-SlkMmHx9VdWBFrn3T78s/edit?usp=sharing"
+    listings_url = "https://drive.google.com/file/d/1tR4O7Znixa0aKC0sxb_9K7JOxwbIo_kO/view?usp=sharing"
 
     # Download files from Google Drive
     gdown.download(transactions_url, "transactions.csv", quiet=False)
