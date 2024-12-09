@@ -52,7 +52,7 @@ if 'final_data' not in st.session_state:
                     transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter='\t', on_bad_lines='skip')
 
             # Read the Excel file
-            listings = pd.read_excel("listingsCategories.xlsx")  # Use read_excel for .xlsx files
+            listings = pd.read_excel("listingsCategories.xlsx", engine='openpyxl') 
 
             # Data cleaning and merging
             listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
