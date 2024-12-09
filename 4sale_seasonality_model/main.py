@@ -32,7 +32,7 @@ else:
 if 'final_data' not in st.session_state:
     # Google Drive file links
     transactions_url = "https://drive.google.com/file/d/14h_94INBkzAxLqopeNbZOCVkWMQktAAb/view?usp=sharing"
-    listings_url = "https://drive.google.com/file/d/1tR4O7Znixa0aKC0sxb_9K7JOxwbIo_kO/view?usp=sharing"
+    listings_url = "https://docs.google.com/spreadsheets/d/165EmqELxzDlWrCjGE-yjxd-SlkMmHx9VdWBFrn3T78s/export?format=csv&id=165EmqELxzDlWrCjGE-yjxd-SlkMmHx9VdWBFrn3T78s"
 
     # Download files from Google Drive
     gdown.download(transactions_url, "transactions.csv", quiet=False)
@@ -47,28 +47,22 @@ if 'final_data' not in st.session_state:
             chunksize = 10000  # Adjust chunk size based on your needs
             for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, on_bad_lines='skip', delimiter=',', quotechar='"'):
                 # Process each chunk
-                # Clean and process the chunk
-                chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})
+                chunk = chunk.rename(columns={"CATEGORY_ID": "CAT_ID"})  # Rename columns to match listings
 
                 # Read the listings CSV file
                 listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
 
-                # Debugging: Print columns in listings to check for 'FULL_PATH'
-                st.write(f"Columns in listings file: {listings.columns}")
+                # Extract 'Level-1' from 'FULL_PATH' in listings file
+                listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
 
-                # Check if 'FULL_PATH' exists
-                if 'FULL_PATH' in listings.columns:
-                    # Extract 'Level-1' from 'FULL_PATH' in listings file
-                    listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
-                else:
-                    st.error("The 'FULL_PATH' column is missing in the listings file.")
-                    st.stop()
-
-                # Merge the chunk with the listings data
+                # Merge the chunk with the listings data on 'CAT_ID'
                 chunk = chunk.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
 
                 # Append the chunk to the final data
-                final_data = pd.concat([final_data, chunk], ignore_index=True)
+                if 'final_data' not in locals():
+                    final_data = chunk
+                else:
+                    final_data = pd.concat([final_data, chunk], ignore_index=True)
 
             # Save final_data to session state
             st.session_state.final_data = final_data
