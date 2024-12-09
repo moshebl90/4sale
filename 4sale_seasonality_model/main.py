@@ -44,12 +44,12 @@ if 'final_data' not in st.session_state:
     else:
         try:
             # Try reading the CSV with different delimiters
-            transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=',', error_bad_lines=False)
+            transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=',', on_bad_lines='skip')
             # If the above doesn't work, try tab or semicolon delimiters
             if transactions.empty:
-                transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=';', error_bad_lines=False)
+                transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=';', on_bad_lines='skip')
                 if transactions.empty:
-                    transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter='\t', error_bad_lines=False)
+                    transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter='\t', on_bad_lines='skip')
 
             # Read the Excel file
             listings = pd.read_excel("listingsCategories.xlsx")  # Use read_excel for .xlsx files
