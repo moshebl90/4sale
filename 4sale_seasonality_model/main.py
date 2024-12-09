@@ -46,13 +46,17 @@ if 'final_data' not in st.session_state:
             # Try reading the transactions file (assuming it's CSV)
             transactions = pd.read_csv("transactions.csv", encoding='utf-8', delimiter=',', on_bad_lines='skip')
             
-            # Check if listings is CSV or Excel
-            if listings_url.endswith('.csv') or listings_url.endswith('.CSV'):
-                listings = pd.read_csv("listingsCategories", encoding='utf-8', delimiter=',', on_bad_lines='skip')
-            elif listings_url.endswith('.xls') or listings_url.endswith('.xlsx'):
-                listings = pd.read_excel("listingsCategories", engine='openpyxl')  # Try openpyxl for .xlsx files
+            # Check the file format of listingsCategories
+            listings_file = "listingsCategories"
+            file_extension = listings_file.split('.')[-1].lower()
+            
+            # Handle different file formats
+            if file_extension == 'csv':
+                listings = pd.read_csv(listings_file, encoding='utf-8', delimiter=',', on_bad_lines='skip')
+            elif file_extension in ['xls', 'xlsx']:
+                listings = pd.read_excel(listings_file, engine='openpyxl')  # Try openpyxl for .xlsx files
             else:
-                raise ValueError("Unsupported file format for listings file.")
+                raise ValueError("Unsupported file format for listings file. Expected .csv or .xlsx")
             
             # Data cleaning and merging
             listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
