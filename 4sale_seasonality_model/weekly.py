@@ -79,3 +79,14 @@ def run(final_data, selected_level_1):
         )
         st.write("Here are some aggregated insights from the available data:")
         st.bar_chart(arima_data["revenue"])
+
+   weekly_bar = weekly_data.groupby('week')['revenue'].sum()
+
+        # Plot a bar chart
+        plt.figure(figsize=(10, 6))
+        weekly_bar.plot(kind='bar', color='skyblue')
+        plt.title('Revenue by monthly')
+        plt.xlabel('week')
+        plt.ylabel('Total Revenue')
+        plt.xticks(rotation=45)
+        st.pyplot(plt)
