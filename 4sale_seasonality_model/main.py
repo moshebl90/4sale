@@ -43,9 +43,6 @@ if 'final_data' not in st.session_state:
         st.error("Files could not be downloaded. Please check the file URLs or your internet connection.")
     else:
         try:
-            # Initialize an empty dataframe for final_data
-            final_data = pd.DataFrame()
-
             # Read the CSV file for transactions in chunks to handle large files
             chunksize = 10000  # Adjust chunk size based on your needs
             for chunk in pd.read_csv("transactions.csv", encoding='utf-8', chunksize=chunksize, on_bad_lines='skip', delimiter=',', quotechar='"'):
@@ -56,8 +53,16 @@ if 'final_data' not in st.session_state:
                 # Read the listings CSV file
                 listings = pd.read_csv("listingsCategories.csv", encoding='utf-8', delimiter=',', quotechar='"', on_bad_lines='skip')
 
-                # Extract 'Level-1' from 'FULL_PATH' in listings file
-                listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
+                # Debugging: Print columns in listings to check for 'FULL_PATH'
+                st.write(f"Columns in listings file: {listings.columns}")
+
+                # Check if 'FULL_PATH' exists
+                if 'FULL_PATH' in listings.columns:
+                    # Extract 'Level-1' from 'FULL_PATH' in listings file
+                    listings["Level-1"] = listings["FULL_PATH"].str.split(" --_-- ").str[0]
+                else:
+                    st.error("The 'FULL_PATH' column is missing in the listings file.")
+                    st.stop()
 
                 # Merge the chunk with the listings data
                 chunk = chunk.merge(listings[["CAT_ID", "Level-1"]], on="CAT_ID", how="left")
