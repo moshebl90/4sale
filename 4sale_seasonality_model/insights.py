@@ -53,7 +53,7 @@ def run(final_data):
     
     st.subheader("Heatmap of Total Transactions (Year vs. Month)")
 
-       st.write("""
+    st.write("""
          The chart below highlights significant missing data, which impacts the accuracy of any seasonality forecasting or pattern detection.
                    """)
     plot_heatmap(final_data, 'TIMESTAMP')
