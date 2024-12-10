@@ -5,11 +5,9 @@ def run(final_data):
     st.header("Data Summary information ")
     st.subheader("Aggregation (Yearly and Monthly)")
     final_data_summary = calculate_summary(final_data, 'TIMESTAMP')
+    final_data_summary['year'] = final_data_summary['year'].astype(str) 
     st.dataframe(final_data_summary)
-    st.subheader("Yearly Totals")
-    yearly_totals = calculate_yearly_totals(final_data, 'TIMESTAMP')
-    yearly_totals['year'] = yearly_totals['year'].astype(str) 
-    st.dataframe(yearly_totals)
+
 
 def calculate_summary(df, date_col):
     df[date_col] = pd.to_datetime(df[date_col])
