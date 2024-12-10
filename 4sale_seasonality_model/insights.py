@@ -51,7 +51,11 @@ def run(final_data):
     plt.xticks(rotation=45)
     st.pyplot(plt)
     
-    st.subheader("Heatmap of Total Transactions")
+    st.subheader("Heatmap of Total Transactions (Year vs. Month)")
+
+       st.write("""
+         The chart below highlights significant missing data, which impacts the accuracy of any seasonality forecasting or pattern detection.
+                   """)
     plot_heatmap(final_data, 'TIMESTAMP')
 
 def plot_heatmap(df, date_col):
@@ -63,9 +67,24 @@ def plot_heatmap(df, date_col):
     
     plt.figure(figsize=(10, 6))
     sns.heatmap(heatmap_data, annot=True, fmt="d", cmap="YlGnBu", cbar_kws={'label': 'Total Transactions'})
-    plt.title("Heatmap of Total Transactions (Year vs. Month)")
     plt.xlabel("Month")
     plt.ylabel("Year")
+    st.pyplot(plt)
+
+    final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
+    st.subheader("Heatmap: Months vs. Level_1 Category (Total Transactions)")
+    if 'level_1' in final_data.columns:
+        plot_heatmap(final_data, index='month', columns='level_1', values='TRANSCATION_ID', aggfunc='count')
+    else:
+        st.warning("The 'level_1' column is not present in the dataset.")
+
+def plot_heatmap_level(df, index, columns, values, aggfunc='sum'):
+    pivot_table = pd.pivot_table(df, index=index, columns=columns, values=values, aggfunc=aggfunc)
+    plt.figure(figsize=(10, 6))
+    sns.heatmap(pivot_table, annot=True, fmt='.0f', cmap='YlGnBu', cbar=True)
+    plt.title(f"Heatmap: {index.capitalize()} vs. {columns.capitalize()} ({values.replace('_', ' ').capitalize()})")
+    plt.xlabel(columns.capitalize())
+    plt.ylabel(index.capitalize())
     st.pyplot(plt)
 
 
