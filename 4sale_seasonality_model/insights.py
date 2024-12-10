@@ -50,6 +50,9 @@ def run(final_data):
     plt.ylabel('Total Revenue')
     plt.xticks(rotation=45)
     st.pyplot(plt)
+    
+    st.subheader("Heatmap of Total Transactions")
+    plot_heatmap(final_data, 'TIMESTAMP')
 
 def plot_heatmap(df, date_col):
     df[date_col] = pd.to_datetime(df[date_col])
