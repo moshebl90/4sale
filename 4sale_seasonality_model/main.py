@@ -91,7 +91,7 @@ if selected == "Insights":
     import insights
     insights.run(st.session_state.final_data)
     
-elif selected == "info":
+elif selected == "Info":
     import info
     info.run(st.session_state.final_data)
 
