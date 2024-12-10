@@ -90,6 +90,10 @@ if os.path.exists("transactions.csv"):
 if selected == "Insights":
     import insights
     insights.run(st.session_state.final_data)
+    
+elif selected == "info":
+    import info
+    info.run(st.session_state.final_data)
 
 elif selected == "Monthly Analysis":
     import monthly
@@ -115,6 +119,3 @@ elif selected == "Weekday Analysis":
     import weekday
     weekday.run(st.session_state.final_data, selected_level_1)
 
-elif selected == "info":
-    import info
-    info.run(st.session_state.final_data)
