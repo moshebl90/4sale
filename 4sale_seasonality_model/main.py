@@ -14,9 +14,9 @@ st.sidebar.image("4sale_seasonality_model/images.png", use_container_width=True)
 with st.sidebar:
     selected = option_menu(
         "Navigation",
-        ["Insights", "Monthly Analysis", "Weekly Analysis", "Daily Analysis",
-         "Weekly in Month Analysis", "Hourly Analysis", "Weekday Analysis", "Info"],
-        icons=["graph-up-arrow", "calendar", "calendar-week", "calendar-day", "calendar-check", "clock", "calendar-event", "info-circle"],
+        ["Insights", "Info","Monthly Analysis", "Weekly Analysis", "Daily Analysis",
+         "Weekly in Month Analysis", "Hourly Analysis", "Weekday Analysis"],
+        icons=["graph-up-arrow","info-circle", "calendar", "calendar-week", "calendar-day", "calendar-check", "clock", "calendar-event"],
         menu_icon="cast",
         default_index=0,
     )
