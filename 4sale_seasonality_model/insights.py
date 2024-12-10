@@ -6,7 +6,11 @@ import seaborn as sns
 
 def run(final_data):
     st.title("Business Insights & Recommendations")
+    final_data = st.session_state.final_data 
+    final_data["TIMESTAMP"] = pd.to_datetime(final_data["TIMESTAMP"])
+    final_data["month"] = final_data["TIMESTAMP"].dt.isocalendar().month
     final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
+    
     
     st.subheader("Introduction")
     st.write("""
