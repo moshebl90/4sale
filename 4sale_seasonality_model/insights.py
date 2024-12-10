@@ -6,7 +6,8 @@ import seaborn as sns
 
 def run(final_data):
     st.title("Business Insights & Recommendations")
-
+    final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
+    
     st.subheader("Introduction")
     st.write("""
     This model is designed to calculate the seasonality for various granularities and estimate the expected growth based on historical data. 
@@ -71,7 +72,7 @@ def plot_heatmap(df, date_col):
     plt.ylabel("Year")
     st.pyplot(plt)
 
-    final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
+    
     st.subheader("Heatmap: Months vs. Level_1 Category (Total Transactions)")
     if 'level_1' in final_data.columns:
         plot_heatmap_level(final_data, index='month', columns='level_1', values='TRANSCATION_ID', aggfunc='count')
