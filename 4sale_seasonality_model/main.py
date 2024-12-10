@@ -14,9 +14,9 @@ st.sidebar.image("4sale_seasonality_model/images.png", use_container_width=True)
 with st.sidebar:
     selected = option_menu(
         "Navigation",
-        ["Info", "Monthly Analysis", "Weekly Analysis", "Daily Analysis",
-         "Weekly in Month Analysis", "Hourly Analysis", "Weekday Analysis", "Insights"],
-        icons=["info-circle", "calendar", "calendar-week", "calendar-day", "calendar-check", "clock", "calendar-event", "graph-up-arrow"],
+        ["Insights", "Monthly Analysis", "Weekly Analysis", "Daily Analysis",
+         "Weekly in Month Analysis", "Hourly Analysis", "Weekday Analysis", "Info"],
+        icons=["graph-up-arrow", "calendar", "calendar-week", "calendar-day", "calendar-check", "clock", "calendar-event", "info-circle"],
         menu_icon="cast",
         default_index=0,
     )
@@ -87,9 +87,9 @@ if os.path.exists("transactions.csv"):
         st.stop()
 
 # Navigation options
-if selected == "Info":
-    import info
-    info.run(st.session_state.final_data)
+if selected == "Insights":
+    import insights
+    insights.run(st.session_state.final_data)
 
 elif selected == "Monthly Analysis":
     import monthly
@@ -115,6 +115,6 @@ elif selected == "Weekday Analysis":
     import weekday
     weekday.run(st.session_state.final_data, selected_level_1)
 
-elif selected == "Insights":
-    import insights
-    insights.run(st.session_state.final_data)
+elif selected == "info":
+    import info
+    info.run(st.session_state.final_data)
