@@ -6,10 +6,7 @@ import seaborn as sns
 
 def run(final_data):
     st.title("Business Insights & Recommendations")
-    final_data = st.session_state.final_data 
-    final_data["TIMESTAMP"] = pd.to_datetime(final_data["TIMESTAMP"])
-    final_data["month"] = final_data["TIMESTAMP"].dt.month
-    final_data["Level-1"] = final_data['Level-1'].str.replace('--_--', '').str.strip()
+   
     
     
     st.subheader("Introduction")
@@ -76,10 +73,15 @@ def plot_heatmap(df, date_col):
     plt.ylabel("Year")
     st.pyplot(plt)
 
+
+    levels = st.session_state.final_data 
+    levels["TIMESTAMP"] = pd.to_datetime(levels["TIMESTAMP"])
+    levels["month"] = levels["TIMESTAMP"].dt.month
+    levels["Level-1"] = levels['Level-1'].str.replace('--_--', '').str.strip()
     
     st.subheader("Heatmap: Months vs. Level_1 Category (Total Transactions)")
-    if 'level_1' in final_data.columns:
-        plot_heatmap_level(final_data, index='month', columns='level_1', values='TRANSCATION_ID', aggfunc='count')
+    if 'Level-1' in levels.columns:
+        plot_heatmap_level(levels, index='month', columns='Level-1', values='TRANSCATION_ID', aggfunc='count')
     else:
         st.warning("The 'level_1' column is not present in the dataset.")
 
