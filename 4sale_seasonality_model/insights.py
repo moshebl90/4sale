@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from info import calculate_yearly_totals
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 def run(final_data):
     st.title("Business Insights & Recommendations")
@@ -48,6 +49,20 @@ def run(final_data):
     plt.xlabel('month')
     plt.ylabel('Total Revenue')
     plt.xticks(rotation=45)
+    st.pyplot(plt)
+
+def plot_heatmap(df, date_col):
+    df[date_col] = pd.to_datetime(df[date_col])
+    df['year'] = df[date_col].dt.year
+    df['month'] = df[date_col].dt.month
+
+    heatmap_data = df.groupby(['year', 'month'])['TRANSCATION_ID'].count().unstack(fill_value=0)
+    
+    plt.figure(figsize=(10, 6))
+    sns.heatmap(heatmap_data, annot=True, fmt="d", cmap="YlGnBu", cbar_kws={'label': 'Total Transactions'})
+    plt.title("Heatmap of Total Transactions (Year vs. Month)")
+    plt.xlabel("Month")
+    plt.ylabel("Year")
     st.pyplot(plt)
 
 
