@@ -23,6 +23,7 @@ def run(final_data):
     for future predictions. The missing data impacts the ability to make accurate forecasts and seasonality calculations.
     """)
     yearly_totals = calculate_yearly_totals(final_data, 'TIMESTAMP')
+    yearly_totals['year'] = yearly_totals['year'].astype(str) 
     st.dataframe(yearly_totals)
 
     st.write("""
@@ -78,6 +79,10 @@ def plot_heatmap(df, date_col):
     levels["TIMESTAMP"] = pd.to_datetime(levels["TIMESTAMP"])
     levels["month"] = levels["TIMESTAMP"].dt.month
     levels["Level-1"] = levels['Level-1'].str.replace('--_--', '').str.strip()
+
+    st.write("""
+         The chart below highlights significant missing data on monthly level per category, which also impacts the accuracy of any seasonality forecasting or pattern detection.
+                   """)
     
     st.subheader("Heatmap: Months vs. Level_1 Category (Total Transactions)")
     if 'Level-1' in levels.columns:
@@ -89,7 +94,6 @@ def plot_heatmap_level(df, index, columns, values, aggfunc='sum'):
     pivot_table = pd.pivot_table(df, index=index, columns=columns, values=values, aggfunc=aggfunc)
     plt.figure(figsize=(10, 6))
     sns.heatmap(pivot_table, annot=True, fmt='.0f', cmap='YlGnBu', cbar=True)
-    plt.title(f"Heatmap: {index.capitalize()} vs. {columns.capitalize()} ({values.replace('_', ' ').capitalize()})")
     plt.xlabel(columns.capitalize())
     plt.ylabel(index.capitalize())
     st.pyplot(plt)
