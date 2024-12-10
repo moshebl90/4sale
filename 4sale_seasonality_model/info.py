@@ -8,6 +8,7 @@ def run(final_data):
     st.dataframe(final_data_summary)
     st.subheader("Yearly Totals")
     yearly_totals = calculate_yearly_totals(final_data, 'TIMESTAMP')
+    yearly_totals['year'] = yearly_totals['year'].astype(str) 
     st.dataframe(yearly_totals)
 
 def calculate_summary(df, date_col):
